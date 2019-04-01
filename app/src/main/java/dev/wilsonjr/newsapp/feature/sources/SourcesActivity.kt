@@ -10,17 +10,15 @@ import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
-import dev.wilsonjr.faire.base.delegates.LoadingDelegate
-import dev.wilsonjr.faire.base.delegates.NewsLoadingDelegate
 import dev.wilsonjr.newsapp.R
 import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.api.model.enums.Category
 import dev.wilsonjr.newsapp.api.model.enums.Country
+import dev.wilsonjr.newsapp.base.BaseListActivity
 import dev.wilsonjr.newsapp.base.NetworkState
 import dev.wilsonjr.newsapp.feature.news.NEWS_ACTIVITY_SOURCE
 import dev.wilsonjr.newsapp.feature.news.NewsActivity
@@ -29,8 +27,14 @@ import kotlinx.android.synthetic.main.activity_sources.*
 import org.koin.android.ext.android.inject
 
 
-class SourcesActivity : AppCompatActivity(), SourcesListAdapter.SourceListAdapterItemListener,
-    LoadingDelegate by NewsLoadingDelegate() {
+class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapterItemListener {
+
+    override val emptyStateTitle: Int = R.string.empty_state_title_source
+    override val emptyStateSubTitle: Int = R.string.empty_state_subtitle_source
+    override val errorStateTitle: Int = R.string.error_state_title_source
+    override val errorStateSubTitle: Int = R.string.error_state_subtitle_source
+    override val mainList: View
+        get() = sources_list
 
     val sourcesViewModel: SourcesViewModel by inject()
 
@@ -38,12 +42,10 @@ class SourcesActivity : AppCompatActivity(), SourcesListAdapter.SourceListAdapte
     private var viewManager: RecyclerView.LayoutManager = GridLayoutManager(this, 1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sources)
         setupView()
-        setupList()
         loadSources()
-        configureOrientation(resources.configuration.orientation)
+        super.onCreate(savedInstanceState)
     }
 
     private fun setupList() {
@@ -66,20 +68,14 @@ class SourcesActivity : AppCompatActivity(), SourcesListAdapter.SourceListAdapte
             }
         })
 
-        sourcesViewModel.networkState.observe(this, Observer {
-            if (NetworkState.RUNNING == it) {
-                showLoading(this)
-            } else {
-                hideLoading()
-            }
-        })
+        sourcesViewModel.networkState.observe(this, networkStateObserver)
 
         sourcesViewModel.loadSources()
     }
 
     private fun setupView() {
         configureAutocompletes()
-
+        setupList()
     }
 
     private fun configureAutocompletes() {
@@ -121,29 +117,14 @@ class SourcesActivity : AppCompatActivity(), SourcesListAdapter.SourceListAdapte
         startActivity(intent)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-
-        newConfig?.orientation?.let {
-            configureOrientation(it)
-        }
-    }
-
-    private fun configureOrientation(orientation: Int) {
-        when (orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> setupLandscape()
-            else -> setupPortrait()
-        }
-    }
-
-    private fun setupPortrait() {
+    override fun setupPortrait() {
         setListColumns(1)
         sources_filters.orientation = VERTICAL
         configureFilterLayoutParams(country_select_layout, MATCH_PARENT, 0f)
         configureFilterLayoutParams(category_select_layout, MATCH_PARENT, 0f)
     }
 
-    private fun setupLandscape() {
+    override fun setupLandscape() {
         setListColumns(2)
         sources_filters.orientation = HORIZONTAL
         configureFilterLayoutParams(country_select_layout, 0, 1f)
@@ -164,5 +145,9 @@ class SourcesActivity : AppCompatActivity(), SourcesListAdapter.SourceListAdapte
             layoutManager.spanCount = columns
             viewAdapter.notifyDataSetChanged()
         }
+    }
+
+    override fun executeRetry() {
+        loadSources()
     }
 }

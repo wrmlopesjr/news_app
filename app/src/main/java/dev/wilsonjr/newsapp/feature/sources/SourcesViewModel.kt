@@ -35,7 +35,6 @@ class SourcesViewModel(private val newsRepository: NewsRepository) : ViewModel()
                 }
             }, {
                 networkState.postValue(NetworkState.ERROR)
-                loadSources() //retry the load
             })
         )
     }

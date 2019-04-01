@@ -9,8 +9,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/ListStyle"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/news_list"
         tools:listitem="@layout/item_source"/>
+
+    <include layout="@layout/empty_state"
+        tools:visibility="gone"/>
+
+    <include layout="@layout/error_state"
+        tools:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

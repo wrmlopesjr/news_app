@@ -1,22 +1,18 @@
 package dev.wilsonjr.newsapp.feature.sources
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import dev.wilsonjr.faire.base.delegates.CompositeDisposableDelegate
-import dev.wilsonjr.faire.base.delegates.DisposableDelegate
-import dev.wilsonjr.newsapp.api.datasource.ArticleDataSource
-import dev.wilsonjr.newsapp.api.model.Article
-import dev.wilsonjr.newsapp.api.model.Source
-import dev.wilsonjr.newsapp.api.repository.NewsRepository
-import dev.wilsonjr.newsapp.base.NetworkState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import dev.wilsonjr.faire.base.delegates.CompositeDisposableDelegate
+import dev.wilsonjr.faire.base.delegates.DisposableDelegate
+import dev.wilsonjr.newsapp.api.datasource.ArticleDataSourceFactory
+import dev.wilsonjr.newsapp.api.model.Article
+import dev.wilsonjr.newsapp.api.model.Source
+import dev.wilsonjr.newsapp.base.NetworkState
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
-import androidx.paging.PagedList
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.RxPagedListBuilder
-import dev.wilsonjr.newsapp.api.datasource.ArticleDataSourceFactory
 
 
 class NewsViewModel(private val articleDataSourceFactory: ArticleDataSourceFactory) : ViewModel(),
@@ -61,5 +57,9 @@ class NewsViewModel(private val articleDataSourceFactory: ArticleDataSourceFacto
     override fun onCleared() {
         clearDisposables()
         super.onCleared()
+    }
+
+    fun invalidteDataSource() {
+        articleDataSourceFactory.mutableLiveData.value?.invalidate()
     }
 }

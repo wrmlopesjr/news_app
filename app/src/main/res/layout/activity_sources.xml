@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/small_margin"
-                android:background="@color/colorPrimaryLower"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -70,8 +70,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/ListStyle"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/sources_list"
         tools:listitem="@layout/item_source"/>
+
+    <include layout="@layout/empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/toolbar_safe_distance"
+        tools:visibility="gone"/>
+
+    <include layout="@layout/error_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/toolbar_safe_distance"
+        tools:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

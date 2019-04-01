@@ -37,18 +37,14 @@ class ArticleDataSource(private val newsRepository: NewsRepository, private val 
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Article>) {
-        networkState.postValue(RUNNING)
-
         source?.let { source ->
             addDisposable(newsRepository.getTopHeadlinesSameThread(source.id, params.key.toInt(), params.requestedLoadSize).subscribe({
                 val nextKey =
                     (if (params.key == Math.ceil(it.totalResults / params.requestedLoadSize.toDouble()).toLong()) null else params.key + 1)
                 callback.onResult(it.articles, nextKey)
                 networkState.postValue(SUCCESS)
-            }, {
-                networkState.postValue(ERROR)
-            }))
-        } ?: networkState.postValue(ERROR)
+            }, {}))
+        }
     }
 
     override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, Article>) {

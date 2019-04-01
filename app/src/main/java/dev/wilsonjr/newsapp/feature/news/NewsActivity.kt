@@ -1,18 +1,16 @@
 package dev.wilsonjr.newsapp.feature.news
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.wilsonjr.faire.base.delegates.LoadingDelegate
-import dev.wilsonjr.faire.base.delegates.NewsLoadingDelegate
 import dev.wilsonjr.newsapp.R
 import dev.wilsonjr.newsapp.api.model.Article
 import dev.wilsonjr.newsapp.api.model.Source
+import dev.wilsonjr.newsapp.base.BaseListActivity
 import dev.wilsonjr.newsapp.base.NetworkState
 import dev.wilsonjr.newsapp.feature.news.adapter.ArticleListAdapter
 import dev.wilsonjr.newsapp.feature.sources.NewsViewModel
@@ -22,8 +20,14 @@ import org.koin.android.ext.android.inject
 
 const val NEWS_ACTIVITY_SOURCE = "NEWS_ACTIVITY_SOURCE"
 
-class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterItemListener,
-    LoadingDelegate by NewsLoadingDelegate() {
+class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterItemListener {
+
+    override val emptyStateTitle: Int = R.string.empty_state_title_news
+    override val emptyStateSubTitle: Int = R.string.empty_state_subtitle_news
+    override val errorStateTitle: Int = R.string.error_state_title_news
+    override val errorStateSubTitle: Int = R.string.error_state_subtitle_news
+    override val mainList: View
+        get() = news_list
 
     private val newsViewModel: NewsViewModel by inject()
 
@@ -31,7 +35,6 @@ class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterI
     private var viewManager: RecyclerView.LayoutManager = GridLayoutManager(this, 1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
 
         (intent?.extras?.getSerializable(NEWS_ACTIVITY_SOURCE) as Source).let { source ->
@@ -44,18 +47,11 @@ class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterI
                     submitList(articles)
                 }
             })
-            newsViewModel.networkState.observe(this, Observer { networkState ->
-                if (NetworkState.RUNNING == networkState) {
-                    showLoading(this)
-                } else {
-                    hideLoading()
-                }
-                viewAdapter.setNetworkState(networkState)
-            })
+            newsViewModel.networkState.observe(this, networkStateObserver)
         }
 
         setupList()
-        configureOrientation(resources.configuration.orientation)
+        super.onCreate(savedInstanceState)
 
     }
 
@@ -73,26 +69,11 @@ class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterI
         startActivity(i)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-
-        newConfig?.orientation?.let {
-            configureOrientation(it)
-        }
-    }
-
-    private fun configureOrientation(orientation: Int) {
-        when (orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> setupLandscape()
-            else -> setupPortrait()
-        }
-    }
-
-    private fun setupPortrait() {
+    override fun setupPortrait() {
         setListColumns(1)
     }
 
-    private fun setupLandscape() {
+    override fun setupLandscape() {
         setListColumns(2)
     }
 
@@ -102,6 +83,10 @@ class NewsActivity : AppCompatActivity(), ArticleListAdapter.ArticleListAdapterI
             layoutManager.spanCount = columns
             viewAdapter.notifyDataSetChanged()
         }
+    }
+
+    override fun executeRetry() {
+        newsViewModel.invalidteDataSource()
     }
 
 }

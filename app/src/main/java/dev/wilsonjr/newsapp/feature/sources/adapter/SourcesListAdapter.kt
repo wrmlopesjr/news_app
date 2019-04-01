@@ -32,6 +32,7 @@ class SourcesListAdapter(val listener: SourceListAdapterItemListener) :
 
         holder.view.source_name.text = source.name
         holder.view.source_description.text = source.description
+        holder.view.source_link.text = source.url
 
         Picasso.get()
             .load(ICON_LOCATOR_URL.format(source.url))

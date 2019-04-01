@@ -4,15 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:elevation="10dp"
+    android:elevation="@dimen/card_elevation"
     android:layout_margin="@dimen/small_margin"
-    app:cardCornerRadius="10dp">
+    android:layout_marginBottom="0dp"
+    app:cardCornerRadius="@dimen/card_radius">
 
     <LinearLayout
         android:id="@+id/source_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/default_margin"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <ImageView
@@ -44,6 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Some info about test" />
+
+            <TextView
+                android:id="@+id/source_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:textColorLink="@color/colorPrimaryDark"
+                tools:text="http://www.google.com.br" />
 
 
         </LinearLayout>
