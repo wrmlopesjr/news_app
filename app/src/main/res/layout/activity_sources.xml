@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".feature.sources.SourcesActivity">
+    tools:context=".feature.sources.SourcesActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -21,20 +24,21 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:titleEnabled="false"
-            app:toolbarId="@+id/toolbar">
+            app:titleEnabled="false">
 
             <LinearLayout
+                android:id="@+id/sources_filters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/toolbar_safe_distance"
-                android:padding="@dimen/small_padding"
+                android:padding="@dimen/small_margin"
+                android:background="@color/colorPrimaryLower"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/country_select_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Country"
+                    android:hint="@string/country"
                     android:labelFor="@id/country_select">
                     <dev.wilsonjr.newsapp.feature.sources.CustomAutoCompleteTextView
                         android:id="@+id/country_select"
@@ -45,9 +49,10 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/category_select_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Category"
+                    android:hint="@string/category"
                     android:labelFor="@id/category_select">
                     <dev.wilsonjr.newsapp.feature.sources.CustomAutoCompleteTextView
                         android:id="@+id/category_select"
@@ -58,17 +63,15 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_sources" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/sources_list"
+        tools:listitem="@layout/item_source"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

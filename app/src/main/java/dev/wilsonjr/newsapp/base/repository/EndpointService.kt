@@ -51,8 +51,8 @@ open class EndpointService {
     }
 
     private fun addHeaders(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        request.newBuilder().addHeader(API_KEY_HEADER_NAME, API_KEY).build()
+        var request = chain.request()
+        request = request.newBuilder().addHeader(API_KEY_HEADER_NAME, API_KEY).build()
         return chain.proceed(request)
     }
 

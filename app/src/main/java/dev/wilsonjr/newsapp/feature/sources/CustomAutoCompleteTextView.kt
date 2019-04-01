@@ -3,7 +3,7 @@ package dev.wilsonjr.newsapp.feature.sources
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.AutoCompleteTextView
-import dev.wilsonjr.newsapp.api.BaseDataEnum
+import dev.wilsonjr.newsapp.api.model.enums.BaseDataEnum
 
 class CustomAutoCompleteTextView : AutoCompleteTextView {
 

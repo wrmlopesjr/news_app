@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.wilsonjr.newsapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".NewsApplication"
         android:allowBackup="true"
@@ -10,15 +12,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".feature.sources.SourcesActivity"
+        <activity android:name=".feature.sources.SourcesActivity"
             android:label="@string/title_activity_sources"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTop"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".feature.news.NewsActivity"
+            android:label="@string/title_activity_news"
+            android:parentActivityName=".feature.sources.SourcesActivity"
+            android:configChanges="orientation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dev.wilsonjr.newsapp.feature.sources.SourcesActivity" />
         </activity>
     </application>
 

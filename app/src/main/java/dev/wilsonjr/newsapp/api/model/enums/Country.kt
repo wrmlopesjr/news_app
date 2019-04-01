@@ -1,4 +1,4 @@
-package dev.wilsonjr.newsapp.api
+package dev.wilsonjr.newsapp.api.model.enums
 
 import dev.wilsonjr.newsapp.R
 

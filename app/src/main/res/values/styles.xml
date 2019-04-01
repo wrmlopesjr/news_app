@@ -17,6 +17,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Title" parent="AppTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CardTitle" parent="Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CardDescription" parent="CardTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="SelectItemStyle" parent="">
         <item name="android:textAppearance">@style/SelectItemTextStyle</item>
         <item name="android:paddingLeft">8dp</item>

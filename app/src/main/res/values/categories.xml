@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ALL_CCATEGORIES">All</string>
+    <string name="ALL_CATEGORIES">All</string>
     <string name="BUSINESS">Business</string>
     <string name="ENTERTAINMENT">Entertainment</string>
     <string name="GENERAL">General</string>
