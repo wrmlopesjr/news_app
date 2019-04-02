@@ -38,27 +38,32 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_news)
 
+        setupList()
+
         (intent?.extras?.getSerializable(NEWS_ACTIVITY_SOURCE) as Source).let { source ->
             title = source.name
 
-            newsViewModel.configureSource(source)
-
-            newsViewModel.articles.observe(this, Observer { articles ->
-                viewAdapter.apply {
-                    articles?.let {
-                        set(articles)
-                        notifyDataSetChanged()
-                    }
-                }
-            })
-            newsViewModel.networkState.observe(this, networkStateObserver)
-
-            newsViewModel.loadNews()
+            loadNews(source)
         }
 
-        setupList()
         super.onCreate(savedInstanceState)
 
+    }
+
+    private fun loadNews(source: Source) {
+        newsViewModel.configureSource(source)
+
+        newsViewModel.articles.observe(this, Observer { articles ->
+            viewAdapter.apply {
+                articles?.let {
+                    set(articles)
+                    notifyDataSetChanged()
+                }
+            }
+        })
+        newsViewModel.networkState.observe(this, networkStateObserver)
+
+        newsViewModel.loadNews()
     }
 
     private fun setupList() {

@@ -47,6 +47,7 @@ class NewsViewModel(private val newsRepository: NewsRepository) : BaseViewModel(
                 articles.addListValues(it.articles)
             },
                 {
+                    //ignore errors and stop loading...
                 })
         )
     }
