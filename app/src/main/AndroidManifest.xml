@@ -15,7 +15,7 @@
         <activity android:name=".feature.sources.SourcesActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:configChanges="orientation">
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,7 @@
             android:name=".feature.news.NewsActivity"
             android:label="@string/title_activity_news"
             android:parentActivityName=".feature.sources.SourcesActivity"
-            android:configChanges="orientation">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dev.wilsonjr.newsapp.feature.sources.SourcesActivity" />

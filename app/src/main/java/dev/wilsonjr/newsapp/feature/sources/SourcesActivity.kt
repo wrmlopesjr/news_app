@@ -92,9 +92,7 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
                 sourcesViewModel.changeCountry(item)
             }
         }
-        country_select.setSelection(0)
 
-        category_select.setText("")
         category_select.setAdapter(
             CustomArrayAdapter(
                 this,

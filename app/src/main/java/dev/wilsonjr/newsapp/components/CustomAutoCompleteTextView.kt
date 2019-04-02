@@ -6,12 +6,10 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.content.ContextCompat
 import dev.wilsonjr.newsapp.R
 import dev.wilsonjr.newsapp.api.model.enums.BaseDataEnum
-import kotlinx.android.synthetic.main.select_item.view.*
 
 class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
 
@@ -52,7 +50,12 @@ class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
         return false
     }
 
-    override fun setCompoundDrawablesWithIntrinsicBounds(left: Drawable?, top: Drawable?, right: Drawable?, bottom: Drawable?) {
+    override fun setCompoundDrawablesWithIntrinsicBounds(
+        left: Drawable?,
+        top: Drawable?,
+        right: Drawable?,
+        bottom: Drawable?
+    ) {
         var rightCopy = right
         val dropdownIcon = ContextCompat.getDrawable(context, R.drawable.arrow_drop_down)
         if (dropdownIcon != null) {

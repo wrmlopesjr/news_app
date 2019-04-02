@@ -31,7 +31,7 @@ To run Instrumentation tests:
 
     ./gradlew connectedDebugAndroidTest
     
-All data for Unit and Instrumentation Tests are mocked with static JSON (check [MockedEndpointService.kt](/news_app/app/src/testCommon/java/dev/wilsonjr/newsapp/base/MockedEndpointService.kt) for implementation)
+All data for Unit and Instrumentation Tests are mocked with static JSON (check [MockedEndpointService.kt](app/src/testCommon/java/dev/wilsonjr/newsapp/base/mock/MockedEndpointService.kt) for implementation)
 
 
 ## Questions

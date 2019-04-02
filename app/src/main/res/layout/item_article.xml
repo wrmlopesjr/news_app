@@ -21,7 +21,7 @@
             android:gravity="center"
             android:padding="@dimen/small_margin">
 
-            <dev.wilsonjr.newsapp.components.Image16_9View
+            <dev.wilsonjr.newsapp.components.Image169View
                 android:id="@+id/article_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
