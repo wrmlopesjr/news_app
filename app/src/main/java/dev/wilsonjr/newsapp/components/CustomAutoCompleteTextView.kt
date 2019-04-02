@@ -2,10 +2,10 @@ package dev.wilsonjr.newsapp.components
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.AutoCompleteTextView
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import dev.wilsonjr.newsapp.api.model.enums.BaseDataEnum
 
-class CustomAutoCompleteTextView : AutoCompleteTextView {
+class CustomAutoCompleteTextView : AppCompatAutoCompleteTextView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
