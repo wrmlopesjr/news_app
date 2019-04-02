@@ -45,10 +45,13 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
 
             newsViewModel.articles.observe(this, Observer { articles ->
                 viewAdapter.apply {
-                    submitList(articles)
+                    set(articles)
+                    notifyDataSetChanged()
                 }
             })
             newsViewModel.networkState.observe(this, networkStateObserver)
+
+            newsViewModel.loadNews()
         }
 
         setupList()
@@ -90,11 +93,11 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
     }
 
     override fun executeRetry() {
-        newsViewModel.invalidateDataSource()
+        newsViewModel.loadNews()
     }
 
     override fun onLoadMore(currentPage: Int, totalItemCount: Int, recyclerView: RecyclerView) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        newsViewModel.loadMoreNews(currentPage)
     }
 
 }

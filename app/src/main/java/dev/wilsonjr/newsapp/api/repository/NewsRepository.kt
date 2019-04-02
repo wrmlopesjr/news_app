@@ -12,7 +12,7 @@ class NewsRepository(endpointService: EndpointService) : Repository<NewsEndpoint
         return schedule(getEndpoint().getSources(country, category))
     }
 
-    fun getTopHeadlinesSameThread(sources: String?, page: Int = 1, pageSize: Int = 20): Single<ArticlesResponse> {
-        return scheduleSameThread(getEndpoint().getTopHeadlines(sources, page, pageSize))
+    fun getEverything(sources: String?, page: Int = 1, pageSize: Int = 20): Single<ArticlesResponse> {
+        return schedule(getEndpoint().getEverything(sources, page, pageSize))
     }
 }

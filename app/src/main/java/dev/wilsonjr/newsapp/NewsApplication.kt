@@ -1,7 +1,7 @@
 package dev.wilsonjr.newsapp
 
 import android.app.Application
-import dev.wilsonjr.faire.base.appComponent
+import dev.wilsonjr.newsapp.base.appComponent
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

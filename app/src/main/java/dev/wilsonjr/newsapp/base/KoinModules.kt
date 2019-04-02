@@ -1,7 +1,5 @@
-package dev.wilsonjr.faire.base
+package dev.wilsonjr.newsapp.base
 
-import dev.wilsonjr.newsapp.api.datasource.ArticleDataSource
-import dev.wilsonjr.newsapp.api.datasource.ArticleDataSourceFactory
 import dev.wilsonjr.newsapp.api.repository.NewsRepository
 import dev.wilsonjr.newsapp.base.repository.EndpointService
 import dev.wilsonjr.newsapp.feature.sources.NewsViewModel
@@ -23,8 +21,4 @@ val repositoryModules = module {
     single { NewsRepository(get()) }
 }
 
-val dataSourceFactoryModules = module {
-    factory { ArticleDataSourceFactory(get()) }
-}
-
-val appComponent: List<Module> = listOf(viewModelModules, serviceModules, repositoryModules, dataSourceFactoryModules)
+val appComponent: List<Module> = listOf(viewModelModules, serviceModules, repositoryModules)

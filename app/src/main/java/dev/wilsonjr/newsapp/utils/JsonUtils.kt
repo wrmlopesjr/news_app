@@ -10,8 +10,6 @@ import java.util.*
 
 object JsonUtils {
 
-    private val typeAdapterFactories = HashSet<TypeAdapterFactory>()
-
     private var gson: Gson? = null
 
     fun getGson(): Gson {
@@ -22,9 +20,6 @@ object JsonUtils {
                     Modifier.TRANSIENT,
                     Modifier.STATIC
                 )
-            for (typeAdapterFactory in typeAdapterFactories) {
-                gsonBuilder.registerTypeAdapterFactory(typeAdapterFactory)
-            }
             gson = gsonBuilder
                 .create()
             return gson!!

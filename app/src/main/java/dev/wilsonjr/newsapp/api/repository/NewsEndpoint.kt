@@ -12,6 +12,6 @@ interface NewsEndpoint {
     fun getSources(@Query("country") country: String?, @Query("category") category: String?): Single<SourceResponse>
 
     @GET("/v2/everything")
-    fun getTopHeadlines(@Query("sources") sources: String?, @Query("page") page: Int, @Query("pageSize") pageSize: Int ): Single<ArticlesResponse>
+    fun getEverything(@Query("sources") sources: String?, @Query("page") page: Int, @Query("pageSize") pageSize: Int ): Single<ArticlesResponse>
 
 }

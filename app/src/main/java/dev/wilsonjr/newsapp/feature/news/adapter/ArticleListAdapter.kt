@@ -1,63 +1,65 @@
 package dev.wilsonjr.newsapp.feature.news.adapter
 
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import dev.wilsonjr.newsapp.IMAGE_LOCATOR_URL
 import dev.wilsonjr.newsapp.R
 import dev.wilsonjr.newsapp.api.model.Article
-import dev.wilsonjr.newsapp.base.NetworkState
+import kotlinx.android.synthetic.main.item_article.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ArticleListAdapter(val listener: ArticleListAdapterItemListener) :
-    PagedListAdapter<Article, RecyclerView.ViewHolder>(Article.DIFF_CALLBACK) {
+    RecyclerView.Adapter<ArticleListAdapter.ArticleListAdapterViewHolder>() {
 
-    private var networkState: NetworkState? = null
+    private val dateFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT)
+    private val parseFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder  {
-        return when (viewType) {
-            R.layout.item_article -> ArticleListAdapterViewHolder.create(parent, listener)
-            R.layout.item_network_article -> ArticleListNetworkAdapterViewHolder.create(parent, listener)
-            else -> throw IllegalArgumentException("Unknown view type $viewType")
-        }
+    private var dataset: ArrayList<Article> = ArrayList()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleListAdapterViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_article, parent, false)
+        return ArticleListAdapterViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (getItemViewType(position)) {
-            R.layout.item_article -> (holder as ArticleListAdapterViewHolder).bind(getItem(position))
-            R.layout.item_network_article -> (holder as ArticleListNetworkAdapterViewHolder).bind(networkState)
-        }
+    override fun onBindViewHolder(holder: ArticleListAdapterViewHolder, position: Int) {
+        val article = dataset[position]
+        holder.view.setOnClickListener { listener.onClick(article) }
+
+        holder.view.article_name.text = article.title
+        holder.view.article_description.text = article.description
+        holder.view.article_author.text = article.author
+        holder.view.article_date.text = dateFormat.format(parseFormat.parse(article.publishedAt))
+
+        val imageURL = article.urlToImage ?: IMAGE_LOCATOR_URL.format(article.url)
+
+        Picasso.get()
+            .load(imageURL)
+            .fit()
+            .centerCrop(Gravity.CENTER)
+            .placeholder(R.drawable.placeholder_image16_9)
+            .error(R.drawable.placeholder_image16_9)
+            .into(holder.view.article_image)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(holder: ArticleListAdapterViewHolder, position: Int, payloads: MutableList<Any>) {
         onBindViewHolder(holder, position)
     }
 
-    private fun hasExtraRow() = networkState != null && networkState != NetworkState.SUCCESS
+    override fun getItemCount(): Int = dataset.size
 
-    override fun getItemCount(): Int = super.getItemCount() + if (hasExtraRow()) 1 else 0
-
-    override fun getItemViewType(position: Int): Int {
-        return if (hasExtraRow() && position == itemCount - 1) {
-            R.layout.item_network_article
-        } else {
-            R.layout.item_article
-        }
+    fun set(articles: ArrayList<Article>) {
+        dataset = articles
     }
 
-    fun setNetworkState(newNetworkState: NetworkState?) {
-        val previousState = this.networkState
-        val hadExtraRow = hasExtraRow()
-        this.networkState = newNetworkState
-        val hasExtraRow = hasExtraRow()
-        if (hadExtraRow != hasExtraRow) {
-            if (hadExtraRow) {
-                notifyItemRemoved(super.getItemCount())
-            } else {
-                notifyItemInserted(super.getItemCount())
-            }
-        } else if (hasExtraRow && previousState != newNetworkState) {
-            notifyItemChanged(itemCount - 1)
-        }
-    }
+    class ArticleListAdapterViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     interface ArticleListAdapterItemListener {
 

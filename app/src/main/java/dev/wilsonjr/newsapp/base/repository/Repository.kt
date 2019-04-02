@@ -19,10 +19,6 @@ open class Repository<E>(private val endpointService: EndpointService) {
         return single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 
-    protected fun <T> scheduleSameThread(single: Single<T>): Single<T> {
-        return single.subscribeOn(Schedulers.trampoline()).observeOn(Schedulers.trampoline())
-    }
-
     @Suppress("UNCHECKED_CAST")
     private fun endpointClass(): Class<E> {
         val clazz: Class<out Repository<*>> = javaClass

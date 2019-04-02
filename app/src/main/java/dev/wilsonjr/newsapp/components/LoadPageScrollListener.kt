@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 class LoadPageScrollListener(private val loadPageScrollLoadMoreListener: LoadPageScrollLoadMoreListener) : RecyclerView.OnScrollListener() {
 
     private val visibleThreshold = 5
-    private var currentPage = 0
+    private var currentPage = 1
     private var previousTotalItemCount = 0
     private var loading = true
-    private val startingPageIndex = 0
+    private val startingPageIndex = 1
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

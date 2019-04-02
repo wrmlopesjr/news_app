@@ -1,6 +1,5 @@
 package dev.wilsonjr.newsapp.base
 
-import dev.wilsonjr.faire.base.appComponent
 import dev.wilsonjr.newsapp.base.mock.MockedEndpointService
 import dev.wilsonjr.newsapp.base.mock.endpoint.EndpointMock
 import dev.wilsonjr.newsapp.base.repository.EndpointService
