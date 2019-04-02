@@ -5,8 +5,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import dev.wilsonjr.faire.base.delegates.CompositeDisposableDelegate
-import dev.wilsonjr.faire.base.delegates.DisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.CompositeDisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.DisposableDelegate
 import dev.wilsonjr.newsapp.api.datasource.ArticleDataSourceFactory
 import dev.wilsonjr.newsapp.api.model.Article
 import dev.wilsonjr.newsapp.api.model.Source
@@ -15,7 +15,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 
-class NewsViewModel(private val articleDataSourceFactory: ArticleDataSourceFactory) : ViewModel(),
+class NewsViewModel(val articleDataSourceFactory: ArticleDataSourceFactory) : ViewModel(),
     DisposableDelegate by CompositeDisposableDelegate() {
 
     val articles: LiveData<PagedList<Article>>
@@ -41,25 +41,12 @@ class NewsViewModel(private val articleDataSourceFactory: ArticleDataSourceFacto
         articleDataSourceFactory.source = source
     }
 
-    fun loadArticles(source: Source) {
-
-
-
-
-
-//        addDisposable(newsRepository.getTopHeadlines(source.id).subscribe({
-//            articles.value = it.articles
-//        }, {
-//            loadArticles(source) //retry the load
-//        }))
-    }
-
-    override fun onCleared() {
+    public override fun onCleared() {
         clearDisposables()
         super.onCleared()
     }
 
-    fun invalidteDataSource() {
+    fun invalidateDataSource() {
         articleDataSourceFactory.mutableLiveData.value?.invalidate()
     }
 }

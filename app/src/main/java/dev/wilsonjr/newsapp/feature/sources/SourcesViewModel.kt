@@ -1,10 +1,9 @@
 package dev.wilsonjr.newsapp.feature.sources
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.wilsonjr.faire.base.delegates.CompositeDisposableDelegate
-import dev.wilsonjr.faire.base.delegates.DisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.CompositeDisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.DisposableDelegate
 import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.api.model.enums.Category
 import dev.wilsonjr.newsapp.api.model.enums.Country
@@ -39,7 +38,7 @@ class SourcesViewModel(private val newsRepository: NewsRepository) : ViewModel()
         )
     }
 
-    override fun onCleared() {
+    public override fun onCleared() {
         clearDisposables()
         super.onCleared()
     }

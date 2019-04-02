@@ -1,7 +1,7 @@
 package dev.wilsonjr.newsapp.feature.sources
 
+import android.app.ActivityOptions
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -19,9 +19,9 @@ import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.api.model.enums.Category
 import dev.wilsonjr.newsapp.api.model.enums.Country
 import dev.wilsonjr.newsapp.base.BaseListActivity
-import dev.wilsonjr.newsapp.base.NetworkState
 import dev.wilsonjr.newsapp.feature.news.NEWS_ACTIVITY_SOURCE
 import dev.wilsonjr.newsapp.feature.news.NewsActivity
+import dev.wilsonjr.newsapp.feature.sources.adapter.CustomArrayAdapter
 import dev.wilsonjr.newsapp.feature.sources.adapter.SourcesListAdapter
 import kotlinx.android.synthetic.main.activity_sources.*
 import org.koin.android.ext.android.inject
@@ -79,7 +79,13 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
     }
 
     private fun configureAutocompletes() {
-        country_select.setAdapter(CustomArrayAdapter(this, R.layout.select_item, Country.values().toMutableList()))
+        country_select.setAdapter(
+            CustomArrayAdapter(
+                this,
+                R.layout.select_item,
+                Country.values().toMutableList()
+            )
+        )
         country_select.keyListener = null
         country_select.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -95,7 +101,13 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
         }
 
 
-        category_select.setAdapter(CustomArrayAdapter(this, R.layout.select_item, Category.values().toMutableList()))
+        category_select.setAdapter(
+            CustomArrayAdapter(
+                this,
+                R.layout.select_item,
+                Category.values().toMutableList()
+            )
+        )
         category_select.keyListener = null
         category_select.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -114,7 +126,7 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
     override fun onClick(source: Source) {
         val intent = Intent(this, NewsActivity::class.java)
         intent.putExtra(NEWS_ACTIVITY_SOURCE, source)
-        startActivity(intent)
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
 
     override fun setupPortrait() {

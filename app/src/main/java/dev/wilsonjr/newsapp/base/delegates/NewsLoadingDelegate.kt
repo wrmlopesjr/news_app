@@ -1,4 +1,4 @@
-package dev.wilsonjr.faire.base.delegates
+package dev.wilsonjr.newsapp.base.delegates
 
 import android.app.Dialog
 import android.content.Context

@@ -7,8 +7,8 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import dev.wilsonjr.faire.base.delegates.LoadingDelegate
-import dev.wilsonjr.faire.base.delegates.NewsLoadingDelegate
+import dev.wilsonjr.newsapp.base.delegates.LoadingDelegate
+import dev.wilsonjr.newsapp.base.delegates.NewsLoadingDelegate
 import kotlinx.android.synthetic.main.empty_state.*
 import kotlinx.android.synthetic.main.empty_state.view.*
 import kotlinx.android.synthetic.main.error_state.*
@@ -92,6 +92,11 @@ abstract class BaseListActivity : AppCompatActivity(), LoadingDelegate by NewsLo
 
     private fun hide(view: View) {
         view.visibility = GONE
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     protected abstract fun setupLandscape()

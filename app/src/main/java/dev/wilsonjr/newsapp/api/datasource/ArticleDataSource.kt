@@ -2,17 +2,13 @@ package dev.wilsonjr.newsapp.api.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import dev.wilsonjr.faire.base.delegates.CompositeDisposableDelegate
-import dev.wilsonjr.faire.base.delegates.DisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.CompositeDisposableDelegate
+import dev.wilsonjr.newsapp.base.delegates.DisposableDelegate
 import dev.wilsonjr.newsapp.api.model.Article
 import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.api.repository.NewsRepository
 import dev.wilsonjr.newsapp.base.NetworkState
 import dev.wilsonjr.newsapp.base.NetworkState.*
-import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 class ArticleDataSource(private val newsRepository: NewsRepository, private val source: Source?) :

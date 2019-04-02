@@ -1,4 +1,4 @@
-package dev.wilsonjr.newsapp.feature.sources
+package dev.wilsonjr.newsapp.feature.sources.adapter
 
 import android.content.Context
 import android.view.View

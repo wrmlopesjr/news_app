@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/country"
                     android:labelFor="@id/country_select">
-                    <dev.wilsonjr.newsapp.feature.sources.CustomAutoCompleteTextView
+                    <dev.wilsonjr.newsapp.components.CustomAutoCompleteTextView
                         android:id="@+id/country_select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/category"
                     android:labelFor="@id/category_select">
-                    <dev.wilsonjr.newsapp.feature.sources.CustomAutoCompleteTextView
+                    <dev.wilsonjr.newsapp.components.CustomAutoCompleteTextView
                         android:id="@+id/category_select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

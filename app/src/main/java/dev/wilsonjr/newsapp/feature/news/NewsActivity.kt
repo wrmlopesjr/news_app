@@ -11,7 +11,7 @@ import dev.wilsonjr.newsapp.R
 import dev.wilsonjr.newsapp.api.model.Article
 import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.base.BaseListActivity
-import dev.wilsonjr.newsapp.base.NetworkState
+import dev.wilsonjr.newsapp.components.LoadPageScrollListener
 import dev.wilsonjr.newsapp.feature.news.adapter.ArticleListAdapter
 import dev.wilsonjr.newsapp.feature.sources.NewsViewModel
 import kotlinx.android.synthetic.main.activity_news.*
@@ -20,7 +20,8 @@ import org.koin.android.ext.android.inject
 
 const val NEWS_ACTIVITY_SOURCE = "NEWS_ACTIVITY_SOURCE"
 
-class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterItemListener {
+class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterItemListener,
+    LoadPageScrollListener.LoadPageScrollLoadMoreListener {
 
     override val emptyStateTitle: Int = R.string.empty_state_title_news
     override val emptyStateSubTitle: Int = R.string.empty_state_subtitle_news
@@ -61,6 +62,9 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
+        news_list.addOnScrollListener(LoadPageScrollListener(this))
+
     }
 
     override fun onClick(article: Article) {
@@ -86,7 +90,11 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
     }
 
     override fun executeRetry() {
-        newsViewModel.invalidteDataSource()
+        newsViewModel.invalidateDataSource()
+    }
+
+    override fun onLoadMore(currentPage: Int, totalItemCount: Int, recyclerView: RecyclerView) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
