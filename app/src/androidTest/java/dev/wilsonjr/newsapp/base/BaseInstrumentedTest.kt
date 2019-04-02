@@ -4,9 +4,8 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import dev.wilsonjr.newsapp.R
-import junit.framework.TestCase
 
-open class BaseInstrumentedTest : TestCase() {
+open class BaseInstrumentedTest : BaseTest(true) {
 
     internal fun waitLoading() {
         //TODO replace with IdlingResource

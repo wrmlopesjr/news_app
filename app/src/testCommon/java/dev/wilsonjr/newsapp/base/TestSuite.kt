@@ -34,9 +34,10 @@ object TestSuite : KoinTest{
         }
     }
 
-    fun init() {
+    fun init(instrumented: Boolean) {
         GlobalContext.getOrNull() ?: startKoin { modules(appComponent) }
-        RxTestScheduler.init()
+
+        if(!instrumented) RxTestScheduler.init()
 
         initMockedEndpointService()
     }

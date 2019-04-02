@@ -23,7 +23,7 @@ open class EndpointService {
 
             retrofit = Retrofit.Builder()
                 .client(getHttpClient())
-                .baseUrl(BASE_URL)
+                .baseUrl(getBaseURL())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -31,6 +31,8 @@ open class EndpointService {
             return retrofit as Retrofit
         }
     }
+
+    protected open fun getBaseURL() = BASE_URL
 
     private fun getHttpClient(): OkHttpClient {
         return httpClient ?: let {

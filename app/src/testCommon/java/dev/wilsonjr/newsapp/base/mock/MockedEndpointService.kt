@@ -1,6 +1,7 @@
 package dev.wilsonjr.newsapp.base.mock
 
 import android.util.Log
+import dev.wilsonjr.newsapp.BASE_URL
 import dev.wilsonjr.newsapp.base.FileUtils
 import dev.wilsonjr.newsapp.base.mock.endpoint.EndpointMock
 import dev.wilsonjr.newsapp.base.repository.EndpointService
@@ -19,6 +20,8 @@ class MockedEndpointService : EndpointService() {
         builder.addInterceptor(mockInterceptor())
         return builder
     }
+
+    override fun getBaseURL() = "http://MOCKED.net"
 
     private fun mockInterceptor(): Interceptor {
         return Interceptor { chain ->

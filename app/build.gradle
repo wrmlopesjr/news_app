@@ -25,6 +25,19 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    sourceSets {
+        final testCommonsDir = 'src/testCommon/java'
+        test {
+            java.srcDir testCommonsDir
+            resources.srcDirs += ['src/testCommon/resources']
+
+        }
+        androidTest {
+            java.srcDir testCommonsDir
+            resources.srcDirs += ['src/testCommon/resources']
+
+        }
+    }
 }
 
 dependencies {
@@ -55,9 +68,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.koin:koin-test:2.0.0-beta-4'
+    testImplementation "org.koin:koin-test:$koinVersion"
     testImplementation "androidx.arch.core:core-testing:$archComponentsVersion"
-    testImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
@@ -65,5 +77,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation "org.koin:koin-test:$koinVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$archComponentsVersion"
 }

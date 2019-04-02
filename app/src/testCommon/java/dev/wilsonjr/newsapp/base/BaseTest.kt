@@ -5,14 +5,14 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 
-open class BaseTest {
+open class BaseTest(private val instrumented: Boolean = false) {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup(){
-        TestSuite.init()
+        TestSuite.init(instrumented)
     }
 
     @After

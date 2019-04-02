@@ -7,7 +7,7 @@ buildscript {
         archComponentsVersion = '2.0.0'
         retrofitVersion = '2.5.0'
         retrofitLoggingVersion = '3.8.0'
-        koinVersion = '2.0.0-rc-1'
+        koinVersion = '2.0.0-rc-2'
         rxAndroidVersion = '2.1.0'
         rxJavaVersion = '2.2.2'
         rxKotlinVersion = '2.2.0'
