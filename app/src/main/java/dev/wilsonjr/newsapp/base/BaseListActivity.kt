@@ -1,20 +1,22 @@
 package dev.wilsonjr.newsapp.base
 
+import android.app.Dialog
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import dev.wilsonjr.newsapp.base.delegates.LoadingDelegate
-import dev.wilsonjr.newsapp.base.delegates.NewsLoadingDelegate
+import dev.wilsonjr.newsapp.R
 import kotlinx.android.synthetic.main.empty_state.*
 import kotlinx.android.synthetic.main.empty_state.view.*
 import kotlinx.android.synthetic.main.error_state.*
 import kotlinx.android.synthetic.main.error_state.view.*
 
-abstract class BaseListActivity : AppCompatActivity(), LoadingDelegate by NewsLoadingDelegate() {
+abstract class BaseListActivity : AppCompatActivity() {
 
     abstract val emptyStateTitle: Int
     abstract val emptyStateSubTitle: Int
@@ -39,9 +41,32 @@ abstract class BaseListActivity : AppCompatActivity(), LoadingDelegate by NewsLo
     private fun setupErrorState(title: Int, subtitle: Int) {
         error_state.error_state_title.text = getString(title)
         error_state.error_state_subtitle.text = getString(subtitle)
-        error_state.error_state_retry.setOnClickListener{
+        error_state.error_state_retry.setOnClickListener {
             executeRetry()
         }
+    }
+
+    private var loadingDialog: Dialog? = null
+
+    private fun showLoading(context: Context) {
+        if (loadingDialog == null) {
+            initDialog()
+        }
+        loadingDialog?.show()
+    }
+
+    private fun initDialog() {
+        loadingDialog = Dialog(this)
+        loadingDialog?.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            setContentView(R.layout.dialog_loading)
+        }
+    }
+
+    private fun hideLoading() {
+        loadingDialog?.dismiss()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

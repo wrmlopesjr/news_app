@@ -1,17 +1,14 @@
 package dev.wilsonjr.newsapp.feature.sources
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import dev.wilsonjr.newsapp.base.delegates.CompositeDisposableDelegate
-import dev.wilsonjr.newsapp.base.delegates.DisposableDelegate
 import dev.wilsonjr.newsapp.api.model.Source
 import dev.wilsonjr.newsapp.api.model.enums.Category
 import dev.wilsonjr.newsapp.api.model.enums.Country
 import dev.wilsonjr.newsapp.api.repository.NewsRepository
+import dev.wilsonjr.newsapp.base.BaseViewModel
 import dev.wilsonjr.newsapp.base.NetworkState
 
-class SourcesViewModel(private val newsRepository: NewsRepository) : ViewModel(),
-    DisposableDelegate by CompositeDisposableDelegate() {
+class SourcesViewModel(private val newsRepository: NewsRepository) : BaseViewModel() {
 
     val sources = MutableLiveData<List<Source>>()
     val networkState = MutableLiveData<NetworkState>()
@@ -36,11 +33,6 @@ class SourcesViewModel(private val newsRepository: NewsRepository) : ViewModel()
                 networkState.postValue(NetworkState.ERROR)
             })
         )
-    }
-
-    public override fun onCleared() {
-        clearDisposables()
-        super.onCleared()
     }
 
     fun changeCountry(country: Country?) {

@@ -79,28 +79,22 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
     }
 
     private fun configureAutocompletes() {
-        country_select.setAdapter(
-            CustomArrayAdapter(
-                this,
-                R.layout.select_item,
-                Country.values().toMutableList()
-            )
+        val countryAdapter = CustomArrayAdapter(
+            this,
+            R.layout.select_item,
+            Country.values().toMutableList()
         )
+        country_select.setAdapter(countryAdapter)
         country_select.keyListener = null
-        country_select.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                (v as AutoCompleteTextView).showDropDown()
-                return false
-            }
-        })
         country_select.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position)
             if (item is Country) {
                 sourcesViewModel.changeCountry(item)
             }
         }
+        country_select.setSelection(0)
 
-
+        category_select.setText("")
         category_select.setAdapter(
             CustomArrayAdapter(
                 this,
@@ -109,12 +103,6 @@ class SourcesActivity : BaseListActivity(), SourcesListAdapter.SourceListAdapter
             )
         )
         category_select.keyListener = null
-        category_select.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                (v as AutoCompleteTextView).showDropDown()
-                return false
-            }
-        })
         category_select.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position)
             if (item is Category) {

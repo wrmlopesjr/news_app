@@ -45,8 +45,10 @@ class NewsActivity : BaseListActivity(), ArticleListAdapter.ArticleListAdapterIt
 
             newsViewModel.articles.observe(this, Observer { articles ->
                 viewAdapter.apply {
-                    set(articles)
-                    notifyDataSetChanged()
+                    articles?.let {
+                        set(articles)
+                        notifyDataSetChanged()
+                    }
                 }
             })
             newsViewModel.networkState.observe(this, networkStateObserver)
