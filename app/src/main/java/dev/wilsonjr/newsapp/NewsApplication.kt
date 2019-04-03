@@ -9,6 +9,7 @@ class NewsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        //configure and start Koin
         startKoin {
             androidContext(this@NewsApplication)
             modules(appComponent)

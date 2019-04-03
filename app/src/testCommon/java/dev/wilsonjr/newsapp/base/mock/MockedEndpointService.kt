@@ -1,19 +1,18 @@
 package dev.wilsonjr.newsapp.base.mock
 
 import android.util.Log
-import dev.wilsonjr.newsapp.BASE_URL
 import dev.wilsonjr.newsapp.base.FileUtils
 import dev.wilsonjr.newsapp.base.mock.endpoint.EndpointMock
 import dev.wilsonjr.newsapp.base.repository.EndpointService
 import okhttp3.*
-import java.util.HashMap
+import java.util.*
 
 class MockedEndpointService : EndpointService() {
 
     private val JSON_MEDIA_TYPE = MediaType.parse("application/json")
     private val mockedEndpoints = HashMap<String, EndpointMock>()
 
-    //we override the get builder method and use a interceptor
+    //we override the get builder method and use an interceptor
     //so instead of getting the data from the api it's going to load the data from JSON files
     override fun getBuilder(): OkHttpClient.Builder {
         val builder = super.getBuilder()
@@ -49,6 +48,7 @@ class MockedEndpointService : EndpointService() {
         return path
     }
 
+    //custom responses are dynamic mocks, you can create it in the test code
     private fun customResponse(chain: Interceptor.Chain, mock: EndpointMock): Response {
         val builder = defaultBuilder(chain)
 
@@ -64,6 +64,7 @@ class MockedEndpointService : EndpointService() {
             .build()
     }
 
+    //default response is getting the response from JSON files
     private fun defaultResponse(chain: Interceptor.Chain, endpoint: String): Response {
         val builder = defaultBuilder(chain)
 
@@ -91,9 +92,5 @@ class MockedEndpointService : EndpointService() {
 
     fun clearMocks() {
         mockedEndpoints.clear()
-    }
-
-    fun removeMock(url: String) {
-        mockedEndpoints.remove(url)
     }
 }

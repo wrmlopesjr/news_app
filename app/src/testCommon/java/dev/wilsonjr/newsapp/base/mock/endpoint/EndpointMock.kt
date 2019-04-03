@@ -7,6 +7,7 @@ import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 
+//this is the object which mocks an URL
 class EndpointMock(val url: String, val endpointService: MockedEndpointService?) {
     protected var responseHandler: ResponseHandler? = null
     protected var responseHandlerWithCode: ResponseHandlerWithCode? = null
@@ -40,36 +41,25 @@ class EndpointMock(val url: String, val endpointService: MockedEndpointService?)
         return this
     }
 
+    //the response code this mock should send
     fun code(code: Int): EndpointMock {
         this.code = code
         return this
     }
 
+    //the response body this mock should send
     fun body(response: String): EndpointMock {
         this.response = response
         return this
     }
 
-    fun bodyAndCode(handlerWithCode: ResponseHandlerWithCode): EndpointMock {
-        this.responseHandlerWithCode = handlerWithCode
-        return this
-    }
-
+    //a handler to mock dynamically with multiple cases
     fun body(handler: ResponseHandler): EndpointMock {
         this.responseHandler = handler
         return this
     }
 
-    fun httpError(code: Int, errorMessage: String): EndpointMock {
-        this.code(code)
-        this.error = HttpException(errorResponse(code, errorMessage))
-        return this
-    }
-
-    protected fun errorResponse(code: Int, errorMessage: String): Response<Any> {
-        return Response.error(code, ResponseBody.create(TEXT_MEDIA_TYPE, errorMessage))
-    }
-
+    //set the EndpointMock and make it active
     fun apply() {
         endpointService?.let {
             var path = url
@@ -81,14 +71,7 @@ class EndpointMock(val url: String, val endpointService: MockedEndpointService?)
 
     }
 
-    fun setMethod(method: String): EndpointMock {
-        this.method = method
-        return this
-    }
-
     companion object {
-
         val FORCED_MOCK_EXCEPTION_CODE = 999
-        private val TEXT_MEDIA_TYPE = MediaType.parse("text/plain")
     }
 }

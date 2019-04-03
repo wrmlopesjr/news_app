@@ -10,6 +10,7 @@ import java.util.concurrent.Callable
 
 object RxTestScheduler {
 
+    //confire RxJava to run synchronously
     fun init() {
         RxAndroidPlugins.reset()
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(androidScheduler())

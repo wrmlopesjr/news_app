@@ -11,4 +11,5 @@
     <dimen name="card_elevation">10dp</dimen>
     <dimen name="card_radius">10dp</dimen>
     <dimen name="icon_image_size">50dp</dimen>
+    <dimen name="loading_size">120dp</dimen>
 </resources>

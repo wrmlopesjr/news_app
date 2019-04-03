@@ -49,6 +49,7 @@ class NewsActivityInstrumentedTest : BaseInstrumentedTest() {
     val activityRule = ActivityTestRule(NewsActivity::class.java, false, false)
 
 
+    //configure the activity with the Source
     private fun launchActivity(source: Source) {
         val intent = Intent()
         intent.putExtra(NEWS_ACTIVITY_SOURCE, source)
@@ -63,6 +64,7 @@ class NewsActivityInstrumentedTest : BaseInstrumentedTest() {
 
         waitLoading()
 
+        //check the title in the screen
         onView(
             CoreMatchers.allOf(
                 CoreMatchers.instanceOf(TextView::class.java),
@@ -70,6 +72,7 @@ class NewsActivityInstrumentedTest : BaseInstrumentedTest() {
             )
         ).check(matches(ViewMatchers.withText("Test Brazil")))
 
+        //check if the News list is displayed with the correct item and the empty and error states are hidden
         onView(withId(R.id.news_list)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))
@@ -80,12 +83,14 @@ class NewsActivityInstrumentedTest : BaseInstrumentedTest() {
     @Test
     fun testEmptyState() {
 
+        //configure the empty response for the URL
         TestSuite.mock(TestConstants.newsURL).body(JsonUtils.toJson(emptyResponse)).apply()
 
         launchActivity(baseSource)
 
         waitLoading()
 
+        //check if the empty state is displayed with the correct item and the news list and error state are hidden
         onView(withId(R.id.empty_state)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.news_list)).check(matches(not(isDisplayed())))
@@ -95,22 +100,27 @@ class NewsActivityInstrumentedTest : BaseInstrumentedTest() {
     @Test
     fun testErrorStateWithRetry() {
 
+        //configure the URL to throw an error
         TestSuite.mock(TestConstants.newsURL).throwConnectionError().apply()
 
         launchActivity(baseSource)
 
         waitLoading()
 
+        //check if the error state is displayed with the correct item and the news list and empty state are hidden
         onView(withId(R.id.error_state)).check(matches(isDisplayed()))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.news_list)).check(matches(not(isDisplayed())))
 
+        //clear the mocks to use just the json files
         TestSuite.clearEndpointMocks()
 
+        //retry in the error state
         onView(withId(R.id.error_state_retry)).perform(ViewActions.click())
 
         waitLoading()
 
+        //check if the News list is displayed and the empty and error states are hidden
         onView(withId(R.id.news_list)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))

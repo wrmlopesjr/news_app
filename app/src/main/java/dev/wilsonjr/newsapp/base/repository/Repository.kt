@@ -15,6 +15,7 @@ open class Repository<E>(private val endpointService: EndpointService) {
         return getEndpoint(endpointClass())
     }
 
+    //configure schedulers
     protected fun <T> schedule(single: Single<T>): Single<T> {
         return single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }

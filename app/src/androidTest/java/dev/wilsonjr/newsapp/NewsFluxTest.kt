@@ -33,6 +33,7 @@ class NewsFluxTest : BaseInstrumentedTest() {
 
     @Before
     fun setupTest() {
+        //we need to lauch the activity here so the MockedEndpointService is set
         activityRule.launchActivity(null)
         Intents.init()
     }
@@ -54,7 +55,7 @@ class NewsFluxTest : BaseInstrumentedTest() {
             )
         )
 
-        //check url redirect
+        //configure url redirect test
         val expectedIntent = allOf(
             hasAction(Intent.ACTION_VIEW),
             hasData("https://abcnews.go.com/US/wireStory/texas-remove-hemp-controlled-substance-list-62093347")
@@ -64,6 +65,7 @@ class NewsFluxTest : BaseInstrumentedTest() {
         //click on first item
         onView(withChild(withText("Texas to soon remove hemp from controlled substance list"))).perform(ViewActions.click())
 
+        //check url redirect
         intended(expectedIntent)
 
     }

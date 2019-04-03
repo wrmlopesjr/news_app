@@ -43,12 +43,14 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
 
     @Before
     fun setupTest() {
+        //we need to lauch the activity here so the MockedEndpointService is set
         activityRule.launchActivity(null)
         Intents.init()
     }
 
     @Test
     fun testCountrySelectorWithStates() {
+        //dynamic mock, BR = customResponse, US = empty response and CA = error response, everything else is the default json
         TestSuite.mock(TestConstants.sourcesURL).body(object : ResponseHandler {
             override fun getResponse(request: Request, path: String): String {
                 val jsonData = FileUtils.readJson(path.substring(1) + ".json")!!
@@ -74,40 +76,49 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
 
         waitLoading()
 
+        //select Brazil in the country list
         onView(withId(R.id.country_select)).perform(ViewActions.click())
         onData(equalTo(Country.BR)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
 
         waitLoading()
 
+        //check if the Sources list is displayed with the correct item and the empty and error states are hidden
         onView(withId(R.id.sources_list)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))
         onView(ViewMatchers.withChild(ViewMatchers.withText("Test Brazil"))).check(matches(isDisplayed()))
 
+        //select United States in the country list
         onView(withId(R.id.country_select)).perform(ViewActions.click())
         onData(equalTo(Country.US)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
 
         waitLoading()
 
+        //check if the empty state is displayed with the correct item and the source list and error state are hidden
         onView(withId(R.id.empty_state)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.sources_list)).check(matches(not(isDisplayed())))
 
+        //select Canada in the country list
         onView(withId(R.id.country_select)).perform(ViewActions.click())
         onData(equalTo(Country.CA)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
 
         waitLoading()
 
+        //check if the error state is displayed with the correct item and the source list and empty state are hidden
         onView(withId(R.id.error_state)).check(matches(isDisplayed()))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.sources_list)).check(matches(not(isDisplayed())))
 
+        //clear the mocks to use just the json files
         TestSuite.clearEndpointMocks()
 
+        //retry in the error state
         onView(withId(R.id.error_state_retry)).perform(ViewActions.click())
 
         waitLoading()
 
+        //check if the Sources list is displayed and the empty and error states are hidden
         onView(withId(R.id.sources_list)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))
@@ -116,6 +127,7 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
 
     @Test
     fun testCategorySelectorWithStates() {
+        //dynamic mock, if any category besides ALL is selected, show a custom response
         TestSuite.mock(TestConstants.sourcesURL).body(object : ResponseHandler {
             override fun getResponse(request: Request, path: String): String {
                 val jsonData = FileUtils.readJson(path.substring(1) + ".json")!!
@@ -127,11 +139,13 @@ class SourcesActivityInstrumentedTest : BaseInstrumentedTest() {
 
         waitLoading()
 
+        //select the Business category
         onView(withId(R.id.category_select)).perform(ViewActions.click())
         onData(equalTo(Category.BUSINESS)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
 
         waitLoading()
 
+        //check if the Sources list is displayed with the correct item and the empty and error states are hidden
         onView(withId(R.id.sources_list)).check(matches(isDisplayed()))
         onView(withId(R.id.error_state)).check(matches(not(isDisplayed())))
         onView(withId(R.id.empty_state)).check(matches(not(isDisplayed())))

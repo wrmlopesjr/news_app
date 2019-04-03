@@ -26,6 +26,7 @@ object TestSuite : KoinTest{
         endpointService!!.clearMocks()
     }
 
+    //set the MockedEndpointService with Koin
     private fun initMockedEndpointService() {
         endpointService = MockedEndpointService()
 
@@ -34,6 +35,7 @@ object TestSuite : KoinTest{
         }
     }
 
+    //check if the test is Instrumented or Unit, in Unit tests we set RxJava to run synchronously
     fun init(instrumented: Boolean) {
         GlobalContext.getOrNull() ?: startKoin { modules(appComponent) }
 
