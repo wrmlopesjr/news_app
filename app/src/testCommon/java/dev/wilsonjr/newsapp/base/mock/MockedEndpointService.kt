@@ -52,14 +52,14 @@ class MockedEndpointService : EndpointService() {
     private fun customResponse(chain: Interceptor.Chain, mock: EndpointMock): Response {
         val builder = defaultBuilder(chain)
 
-        if (mock.getCode(chain.request()) == EndpointMock.FORCED_MOCK_EXCEPTION_CODE) {
+        if (mock.getCode() == EndpointMock.FORCED_MOCK_EXCEPTION_CODE) {
             throw RuntimeException("EndpointMock test exception")
         }
         return mock.error?.let { error ->
-            builder.code(mock.getCode(chain.request()))
+            builder.code(mock.getCode())
                 .body(error.response().errorBody())
                 .build()
-        } ?: builder.code(mock.getCode(chain.request()))
+        } ?: builder.code(mock.getCode())
             .body(ResponseBody.create(JSON_MEDIA_TYPE, mock.getResponse(chain.request())))
             .build()
     }
